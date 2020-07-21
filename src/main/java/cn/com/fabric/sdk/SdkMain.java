@@ -1,5 +1,6 @@
 package cn.com.fabric.sdk;
 
+import cn.com.fabric.sdk.ca.FabricCAClient;
 import org.hyperledger.fabric.sdk.*;
 import org.hyperledger.fabric.sdk.exception.*;
 import java.util.ArrayList;
@@ -12,15 +13,15 @@ import java.util.Map;
  */
 public class SdkMain {
 
-    private static final String keyFolderPath = "E:\\Project\\fabric-SDK-learn\\src\\main\\resources\\crypto-config\\peerOrganizations\\org1.example.com\\users\\Admin@org1.example.com\\msp\\keystore";
+    private static final String keyFolderPath = "E:\\Project\\Myfabric\\fabric-SDK-learn\\src\\main\\resources\\crypto-config\\peerOrganizations\\org1.example.com\\users\\Admin@org1.example.com\\msp\\keystore";
     private static final String keyFileName = "priv_sk";
-    private static final String certFolderPath = "E:\\Project\\fabric-SDK-learn\\src\\main\\resources\\crypto-config\\peerOrganizations\\org1.example.com\\users\\Admin@org1.example.com\\msp\\signcerts";
+    private static final String certFolderPath = "E:\\Project\\Myfabric\\fabric-SDK-learn\\src\\main\\resources\\crypto-config\\peerOrganizations\\org1.example.com\\users\\Admin@org1.example.com\\msp\\signcerts";
     private static final String certFileName = "Admin@org1.example.com-cert.pem";
 
-    private static final String ordererTlsFilePath = "E:\\Project\\fabric-SDK-learn\\src\\main\\resources\\crypto-config\\ordererOrganizations\\example.com\\tlsca\\tlsca.example.com-cert.pem";
-    private static final String org1peerTlsFilePath = "E:\\Project\\fabric-SDK-learn\\src\\main\\resources\\crypto-config\\peerOrganizations\\org1.example.com\\peers\\peer0.org1.example.com\\msp\\tlscacerts\\tlsca.org1.example.com-cert.pem";
-    private static final String org2peerTlsFilePath = "E:\\Project\\fabric-SDK-learn\\src\\main\\resources\\crypto-config\\peerOrganizations\\org2.example.com\\peers\\peer0.org2.example.com\\msp\\tlscacerts\\tlsca.org2.example.com-cert.pem";
-    private static final String txFilePath = "E:\\Project\\fabric-SDK-learn\\src\\main\\resources\\test.tx";
+    private static final String ordererTlsFilePath = "E:\\Project\\Myfabric\\fabric-SDK-learn\\src\\main\\resources\\crypto-config\\ordererOrganizations\\example.com\\tlsca\\tlsca.example.com-cert.pem";
+    private static final String org1peerTlsFilePath = "E:\\Project\\Myfabric\\fabric-SDK-learn\\src\\main\\resources\\crypto-config\\peerOrganizations\\org1.example.com\\peers\\peer0.org1.example.com\\msp\\tlscacerts\\tlsca.org1.example.com-cert.pem";
+    private static final String org2peerTlsFilePath = "E:\\Project\\Myfabric\\fabric-SDK-learn\\src\\main\\resources\\crypto-config\\peerOrganizations\\org2.example.com\\peers\\peer0.org2.example.com\\msp\\tlscacerts\\tlsca.org2.example.com-cert.pem";
+    private static final String txFilePath = "E:\\Project\\Myfabric\\fabric-SDK-learn\\src\\main\\resources\\test.tx";
 
     public static void main(String[] args) throws Exception {
 
@@ -32,6 +33,11 @@ public class SdkMain {
 
         Enrollment enrollment = UserUtils.getEnrollment(keyFolderPath, keyFileName, certFolderPath, certFileName);
         userContext.setEnrollment(enrollment);
+
+        // 用 FabricCA 是另一种获得 Enrollment 的方式
+        /*FabricCAClient caClient = new FabricCAClient("http://47.115.37.243:7054", null);   // 用 https 还需要在 properties 中加入 TLS证书（但是我加了几个都没成功）
+        Enrollment enrollment2 = caClient.enroll("lihua", "xxx");// password 是刚用 admin 用户 register 得来的
+        userContext.setEnrollment(enrollment2);*/
 
         FabricClient fabricClient = new FabricClient(userContext);
 

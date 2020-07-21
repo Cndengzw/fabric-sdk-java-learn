@@ -77,14 +77,6 @@ public class FabricClient {
     /**
      * 实例化链码（这里没有指定背书策略）；默认的是 OR ，只要有一个人背书就认为是合法
      * 如果要指定背书策略，看下面升级合约的代码
-     * @param channelName
-     * @param lang
-     * @param chaincodeName
-     * @param chaincodeVersion
-     * @param orderer
-     * @param peer
-     * @param funcName
-     * @param args
      */
     public void initChaincode(String channelName, TransactionRequest.Type lang, String chaincodeName, String chaincodeVersion, Orderer orderer, Peer peer, String funcName, String... args) throws Exception {
         Channel channel = getChannel(channelName);
@@ -122,14 +114,6 @@ public class FabricClient {
      * 升级合约（前置条件是先安装 2.0）
      * 1. 改动原来的链码后，再次安装，版本设置为 2.0，安装完成后通道有 1.0 和 2.0 两个版本的合约。
      * 2. 这个时候再升级，升级完后再查看 instantiated 就只有 2.0 版本了
-     * @param channelName
-     * @param lang
-     * @param chaincodeName
-     * @param chaincodeVersion
-     * @param orderer
-     * @param peer
-     * @param funcName
-     * @param args
      */
     public void upgradeChaincode(String channelName, TransactionRequest.Type lang, String chaincodeName, String chaincodeVersion, Orderer orderer, Peer peer, String funcName, String... args) throws Exception {
         Channel channel = getChannel(channelName);
@@ -169,15 +153,6 @@ public class FabricClient {
 
     /**
      * 触发合约，需要背书
-     * @param channelName
-     * @param lang
-     * @param chaincodeName
-     * @param chaincodeVersion
-     * @param orderer
-     * @param peers
-     * @param funcName
-     * @param args
-     * @throws Exception
      */
     public void invokeChaincode(String channelName, TransactionRequest.Type lang, String chaincodeName, String chaincodeVersion, Orderer orderer, List<Peer> peers, String funcName, String... args) throws Exception{
         Channel channel = getChannel(channelName);
